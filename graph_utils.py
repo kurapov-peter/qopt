@@ -41,7 +41,8 @@ def get_het_graph_for(op: relops.Operator) -> nx.DiGraph:
     gpu_d = {"device": gpu}
     g.add_nodes_from([cpu_op, gpu_op, router, dummy, mm1, mm2, cpu2gpu, gpu2cpu])
     g.add_edges_from(
-        [(router, mm1, cpu_d), (router, mm2, gpu_d), (mm1, cpu_op, cpu_d), (cpu_op, dummy, cpu_d), (mm2, cpu2gpu, gpu_d),
+        [(router, mm1, cpu_d), (router, mm2, gpu_d), (mm1, cpu_op, cpu_d), (cpu_op, dummy, cpu_d),
+         (mm2, cpu2gpu, gpu_d),
          (cpu2gpu, gpu_op, gpu_d),
          (gpu_op, gpu2cpu, gpu_d), (gpu2cpu, dummy, gpu_d)])
     assert nx.is_directed_acyclic_graph(g)
@@ -67,9 +68,12 @@ def get_het_graph_for_join(op: relops.RelJoin) -> nx.DiGraph:
 
     cpu_d = {"device": cpu}
     gpu_d = {"device": gpu}
-    g.add_edges_from([(router_a, mms[0], cpu_d), (router_a, mms[1], gpu_d), (mms[0], cpu_op, cpu_d), (cpu_op, dummy, cpu_d), (mms[1], cpu2gpu_a, gpu_d),
-                      (cpu2gpu_a, gpu_op, gpu_d), (gpu_op, gpu2cpu, gpu_d), (gpu2cpu, dummy, gpu_d), (router_b, mms[2], cpu_d), (router_b, mms[3], gpu_d),
-                      (mms[3], cpu2gpu_b, gpu_d), (cpu2gpu_b, gpu_op, gpu_d), (mms[2], cpu_op, cpu_d)])
+    g.add_edges_from(
+        [(router_a, mms[0], cpu_d), (router_a, mms[1], gpu_d), (mms[0], cpu_op, cpu_d), (cpu_op, dummy, cpu_d),
+         (mms[1], cpu2gpu_a, gpu_d),
+         (cpu2gpu_a, gpu_op, gpu_d), (gpu_op, gpu2cpu, gpu_d), (gpu2cpu, dummy, gpu_d), (router_b, mms[2], cpu_d),
+         (router_b, mms[3], gpu_d),
+         (mms[3], cpu2gpu_b, gpu_d), (cpu2gpu_b, gpu_op, gpu_d), (mms[2], cpu_op, cpu_d)])
     assert nx.is_directed_acyclic_graph(g)
     return g
 
