@@ -25,6 +25,8 @@ def get_het_graph_for(op: relops.Operator) -> nx.DiGraph:
     :param op:
     :return:
     """
+    if isinstance(op, relops.RelJoin):
+        return get_het_graph_for_join(op)
     cpu = CPU()
     gpu = GPU()
     g = nx.DiGraph()
@@ -57,7 +59,7 @@ def get_het_graph_for_join(op: relops.RelJoin) -> nx.DiGraph:
     gpu_op = PlanNode(op, gpu)
     router_a = PlanNode(relops.Router(), cpu)
     router_b = PlanNode(relops.Router(), cpu)
-    mms = [PlanNode(relops.MemCpy(), cpu) for _ in range(4)]
+    mms = [PlanNode(relops.MemCpy(), (lambda x: cpu if x % 2 else gpu)(i)) for i in range(4)]
     cpu2gpu_a = PlanNode(relops.CPU2GPU(), gpu)
     cpu2gpu_b = PlanNode(relops.CPU2GPU(), gpu)
     gpu2cpu = PlanNode(relops.GPU2CPU(), gpu)
@@ -88,3 +90,43 @@ def drains(g: nx.DiGraph):
 
 def get_routers(g: nx.DiGraph):
     return [node for node in g if node.is_router()]
+
+
+def connect(a: nx.DiGraph, b: nx.DiGraph) -> nx.DiGraph:
+    assert (len(drains(a)) == 1)
+    assert (len(sources(b)) > 0)
+
+    dummy = drains(a)[0]
+    preds = a.predecessors(dummy)
+    src = sources(b)[0]
+    g = nx.compose(a, b)
+
+    for node in preds:
+        g.add_edges_from([(node, src, {"device": CPU()})])
+    g.remove_node(dummy)
+    return g
+
+
+def connect_join(a: nx.DiGraph, b: nx.DiGraph, join: nx.DiGraph) -> nx.DiGraph:
+    assert (len(sources(join)) == 2)
+    assert (len(drains(a)) == len(drains(b)) == 1)
+
+    dummy_a = drains(a)[0]
+    dummy_b = drains(b)[0]
+    preds_a = a.predecessors(dummy_a)
+    preds_b = b.predecessors(dummy_b)
+
+    src_a = sources(join)[0]
+    src_b = sources(join)[1]
+
+    g = nx.compose(a, b)
+    g = nx.compose(g, join)
+
+    for node in preds_a:
+        g.add_edges_from([(node, src_a, {"device": CPU()})])
+    for node in preds_b:
+        g.add_edges_from([(node, src_b, {"device": CPU()})])
+
+    g.remove_node(dummy_a)
+    g.remove_node(dummy_b)
+    return g
