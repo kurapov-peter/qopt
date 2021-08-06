@@ -5,10 +5,33 @@ from device import *
 import relops
 
 
-def display(g: nx.DiGraph):
+def display(g: nx.DiGraph, title: str = "Unnamed plan"):
+    f = plt.figure(1)
+    ax = f.add_subplot(1, 1, 1)
     pos = nx.spring_layout(g, seed=6)
-    nx.draw(g, pos, with_labels=True, font_weight='bold')
-    nx.draw_networkx_edge_labels(g, pos)
+    nx.draw(g, pos, with_labels=True, font_weight='bold', ax=ax)
+    nx.draw_networkx_edge_labels(g, pos, ax=ax)
+    nx.draw_networkx_nodes(g, pos, nodelist=sources(g), node_color="tab:red", ax=ax)
+    nx.draw_networkx_nodes(g, pos, nodelist=drains(g), node_color="tab:green", ax=ax)
+    ax.set_title(title)
+    font = {"fontname": "Helvetica", "color": "g", "fontweight": "bold", "fontsize": 14}
+    ax.text(
+        0.80,
+        0.01,
+        "Input nodes",
+        horizontalalignment="center",
+        transform=ax.transAxes,
+        fontdict=font,
+    )
+    font = {"fontname": "Helvetica", "color": "r", "fontweight": "bold", "fontsize": 14}
+    ax.text(
+        0.80,
+        0.00,
+        "Output nodes",
+        horizontalalignment="center",
+        transform=ax.transAxes,
+        fontdict=font,
+    )
     plt.show()
 
 
