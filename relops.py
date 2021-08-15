@@ -10,7 +10,7 @@ class Operator(object):
             result = data.bytes / 2
         return result
 
-    def input_scale(self, data: DataParams) -> DataParams:
+    def input_scale(self, data: DataParams, device: Device) -> DataParams:
         return data
 
     def __str__(self):
@@ -57,7 +57,7 @@ class RelFilter(RelOp):
     def selectivity(self):
         return self._sel
 
-    def input_scale(self, data: DataParams):
+    def input_scale(self, data: DataParams, device: Device):
         return DataParams(data.bytes * self._sel)
 
 
@@ -97,9 +97,13 @@ class Router(Operator):
             return 1 - self._coeff
         if isinstance(device, GPU):
             return self._coeff
+        raise AttributeError("Unsupported device type: ", device)
 
     def cost(self, d: Device, data: DataParams):
         return self.router_overhead
+
+    def input_scale(self, data: DataParams, device: Device) -> DataParams:
+        return DataParams(data.bytes * self.get_input_coeff_for_device(device))
 
 
 class CPU2GPU(Operator):

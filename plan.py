@@ -89,7 +89,7 @@ class Plan(object):
                 assert predecessors_num == 1
                 pred = list(self._g.predecessors(node))
                 assert len(pred) == 1
-                input = pred[0].get_op().input_scale(pred[0].props["input"])
+                input = pred[0].get_op().input_scale(pred[0].props["input"], node.device)
                 node.props['input'] = input
                 total_cost += node.get_op().cost(node.device, pred[0].props["input"])
 
