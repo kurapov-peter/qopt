@@ -42,6 +42,30 @@ def draw_graph_write_dot(g, name):
     write_dot(g, name + '.dot')
 
 
+def finalize_graph_with(g: nx.DiGraph, op: relops.Operator) -> nx.DiGraph:
+    dummy = drains(g)
+    assert len(dummy) == 1
+    assert isinstance(dummy[0].get_op(), relops.Dummy)
+
+    finalizer = nx.DiGraph()
+
+    if g.in_degree(dummy[0]) > 1:
+        router = PlanNode(relops.Router(), CPU())
+        op_node = PlanNode(op, CPU())
+        finalizer.add_nodes_from([router, op_node])
+        finalizer.add_edge(router, op_node)
+    else:
+        finalizer.add_node(PlanNode(op, CPU()))
+
+    return connect(g, finalizer)
+
+
+def get_single_node_for(op: relops.Operator, device: Device = CPU()) -> nx.DiGraph:
+    g = nx.DiGraph()
+    g.add_node(PlanNode(op, device))
+    return g
+
+
 def get_het_graph_for(op: relops.Operator) -> nx.DiGraph:
     """
     CPU/GPU schema only
