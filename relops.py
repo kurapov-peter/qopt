@@ -88,16 +88,15 @@ class Router(Operator):
         self._name = "Router"
         self._coeff = 0
 
-    @property
-    def gpu_data_coeff(self):
-        return self._coeff
-
     def get_input_coeff_for_device(self, device: Device):
         if isinstance(device, CPU):
-            return 1 - self._coeff
-        if isinstance(device, GPU):
             return self._coeff
+        if isinstance(device, GPU):
+            return 1 - self._coeff
         raise AttributeError("Unsupported device type: ", device)
+
+    def set_input_coeff(self, coeff: dict):
+        self._coeff = coeff[CPU()]
 
     def cost(self, d: Device, data: DataParams):
         return self.router_overhead

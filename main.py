@@ -14,6 +14,11 @@ if __name__ == '__main__':
     join = graph_utils.get_het_graph_for(relops.RelJoin())
     res = graph_utils.connect_join(scan_a, scan_b, join)
     final = graph_utils.finalize_graph_with(res, relops.RelSort())
-    graph_utils.display(final)
+    # graph_utils.display(final)
     p = Plan(final)
     print(p.cost())
+
+    coeffs_len = len(p.get_features()['routers'])
+    p.set_routers_coeffs([1 for _ in range(coeffs_len)])
+    print(p.cost())
+

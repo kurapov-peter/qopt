@@ -9,6 +9,12 @@ class CPU(Device):
     def __str__(self):
         return "cpu"
 
+    def __eq__(self, other):
+        return isinstance(other, CPU)
+
+    def __hash__(self):
+        return hash(repr(self))
+
 
 class GPU(Device):
     def __repr__(self):
@@ -16,3 +22,9 @@ class GPU(Device):
 
     def __str__(self):
         return "gpu"
+
+    def __eq__(self, other):
+        return isinstance(other, CPU)
+
+    def __hash__(self):
+        return hash(repr(self))

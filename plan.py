@@ -1,4 +1,4 @@
-from device import Device
+from device import Device, CPU
 import relops
 import networkx as nx
 import graph_utils
@@ -29,22 +29,45 @@ class PlanNode(object):
         return isinstance(self._op, relops.Router)
 
     @property
-    def props(self):
+    def props(self) -> dict:
         return self._props
+
+    @props.setter
+    def props(self, props: dict):
+        self._props = props
 
 
 class Plan(object):
     def __init__(self, graph: nx.DiGraph):
         self._g = graph
+        self._features = {}
+        self._update_routers_features()
 
     def get_routers(self):
-        graph_utils.get_routers(self._g)
+        return graph_utils.get_routers(self._g)
+
+    def get_features(self):
+        return self._features
+
+    def set_routers_coeffs(self, coeffs: list):
+        assert len(coeffs) == len(self.get_routers())
+        routers = self.get_routers()
+        for i in range(len(coeffs)):
+            routers[i].get_op().set_input_coeff({CPU(): coeffs[i]})
+        self._update_routers_features()
 
     def cost(self, input_data: dict = None):
         self._cleanup()
         self._update_input_costs(input_data)
         return self._calculate_cost()
         # return sum([cost(x.get_op(), x.device, DataParams.plan_input()) for x in self._g])
+
+    def _update_features(self):
+        self._update_routers_features()
+
+    def _update_routers_features(self):
+        routers = self.get_routers()
+        self._features['routers'] = [router.get_op().get_input_coeff_for_device(router.device) for router in routers]
 
     def _update_input_costs(self, table_data: dict):
         """
@@ -100,4 +123,5 @@ class Plan(object):
         return total_cost
 
     def _cleanup(self):
-        pass
+        for node in self._g:
+            node.props = {}
