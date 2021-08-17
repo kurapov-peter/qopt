@@ -24,7 +24,7 @@ class GPU(Device):
         return "gpu"
 
     def __eq__(self, other):
-        return isinstance(other, CPU)
+        return isinstance(other, GPU)
 
     def __hash__(self):
         return hash(repr(self))

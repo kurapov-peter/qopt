@@ -10,5 +10,8 @@ class DataParams:
     def plan_input():
         return DataParams(0)
 
+    def empty(self) -> bool:
+        return self._bytes == 0
+
     def __repr__(self):
         return '[DataParams:' + str(self.bytes) + ']'

@@ -3,7 +3,6 @@ import relops
 import networkx as nx
 import graph_utils
 from estimator import cost, join_cost, DataParams
-import math
 
 
 class PlanNode(object):
@@ -56,11 +55,22 @@ class Plan(object):
             routers[i].get_op().set_input_coeff({CPU(): coeffs[i]})
         self._update_routers_features()
 
+    def set_routers_use_gpu_only(self):
+        routers = self.get_routers()
+        self.set_routers_coeffs([0] * len(routers))
+
+    def set_routers_use_cpu_only(self):
+        routers = self.get_routers()
+        self.set_routers_coeffs([1] * len(routers))
+
     def cost(self, input_data: dict = None):
         self._cleanup()
         self._update_input_costs(input_data)
         return self._calculate_cost()
         # return sum([cost(x.get_op(), x.device, DataParams.plan_input()) for x in self._g])
+
+    def display(self):
+        graph_utils.display(self._g)
 
     def _update_features(self):
         self._update_routers_features()
@@ -95,26 +105,28 @@ class Plan(object):
             node = queue.pop(0)
             predecessors_num = self._g.in_degree(node)
 
+            current_op_cost = 0
+            op_input = None
             if predecessors_num == 0:  # sources
-                total_cost += cost(node.get_op(), node.device, node.props['input'])
+                op_input = node.props['input']
+                current_op_cost = cost(node.get_op(), node.device, node.props['input'])
             elif isinstance(node.get_op(), relops.RelJoin):
                 assert predecessors_num > 1
                 pred = list(self._g.predecessors(node))
-                total_input = DataParams(pred[0].props['input'].bytes * pred[1].props['input'].bytes)  # fixme
-                node.props['input'] = total_input
-                total_cost += join_cost(node.get_op(), node.device,
-                                        [v.props['input'] for v in self._g.predecessors(node)])
+                op_input = DataParams(pred[0].props['input'].bytes * pred[1].props['input'].bytes)  # fixme
+                current_op_cost = join_cost(node.get_op(), node.device,
+                                            [v.props['input'] for v in self._g.predecessors(node)])
             elif isinstance(node.get_op(), relops.Router):
-                total_input = DataParams(sum(x.props['input'].bytes for x in self._g.predecessors(node)))
-                node.props['input'] = total_input
-                total_cost += cost(node.get_op(), node.device, total_input)
+                op_input = DataParams(sum(x.props['input'].bytes for x in self._g.predecessors(node)))
+                current_op_cost = cost(node.get_op(), node.device, op_input)
             else:
-                assert predecessors_num == 1
-                pred = list(self._g.predecessors(node))
-                assert len(pred) == 1
-                input = pred[0].get_op().input_scale(pred[0].props["input"], node.device)
-                node.props['input'] = input
-                total_cost += node.get_op().cost(node.device, pred[0].props["input"])
+                assert len(list(self._g.predecessors(node))) == 1
+                pred = list(self._g.predecessors(node))[0]
+                op_input = pred.get_op().input_scale(pred.props["input"], node.device)
+                current_op_cost = cost(node.get_op(), node.device, op_input)
+
+            node.props['input'] = op_input
+            total_cost += current_op_cost
 
             for suc in self._g.successors(node):
                 if not suc.props['ready'] and all(v.props['ready'] for v in self._g.predecessors(suc)):

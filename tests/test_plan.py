@@ -6,24 +6,6 @@ from plan import Plan
 
 
 class TestPlan(TestCase):
-    def test_get_routers(self):
-        self.fail()
-
-    def test_features(self):
-        self.fail()
-
-    def test_cost(self):
-        self.fail()
-
-    def test__update_input_costs(self):
-        self.fail()
-
-    def test__calculate_cost(self):
-        self.fail()
-
-    def test__cleanup(self):
-        self.fail()
-
     def test_set_routers_coeffs(self):
         a_data = DataParams(100)
         b_data = DataParams(500)
@@ -43,4 +25,39 @@ class TestPlan(TestCase):
         self.assertEqual(len(p.get_routers()), len(features))
         self.assertTrue(all(feature == 1 for feature in features))
 
+    def test_cost(self):
+        from device import CPU, GPU
+        a_data = DataParams(100)
+        scan_a = graph_utils.get_het_graph_for(relops.RelScan("A", a_data))
+        final = graph_utils.finalize_graph_with(scan_a, relops.RelSort())
+        p = Plan(final)
+        p.set_routers_use_cpu_only()
+        c = p.cost()
+        # inputs are ready here
+        cpu_nodes = [node for node in p._g if node.device == CPU()]
+        cpu_cost = 0
+        for node in cpu_nodes:
+            assert not isinstance(node.get_op(), relops.RelJoin)
+            if len(list(p._g.predecessors(node))) == 0:
+                cpu_cost += node.get_op().cost(node.device, node.props['input'])
+            else:
+                input = DataParams(sum(x.props['input'].bytes for x in p._g.predecessors(node)))
+                cpu_cost += node.get_op().cost(node.device, input)
 
+        self.assertEqual(c, cpu_cost)
+
+        p.set_routers_use_gpu_only()
+        c = p.cost()
+
+        gpu_nodes = [node for node in p._g if node.device == GPU()] + graph_utils.get_routers(p._g)
+
+        gpu_cost = 0
+        for node in gpu_nodes:
+            assert not isinstance(node.get_op(), relops.RelJoin)
+            if len(list(p._g.predecessors(node))) == 0:
+                gpu_cost += node.get_op().cost(node.device, node.props['input'])
+            else:
+                input = DataParams(sum(x.props['input'].bytes for x in p._g.predecessors(node)))
+                gpu_cost += node.get_op().cost(node.device, input)
+
+        self.assertEqual(c, gpu_cost)

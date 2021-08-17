@@ -99,6 +99,8 @@ class Router(Operator):
         self._coeff = coeff[CPU()]
 
     def cost(self, d: Device, data: DataParams):
+        if data.empty():
+            return 0
         return self.router_overhead
 
     def input_scale(self, data: DataParams, device: Device) -> DataParams:
@@ -112,6 +114,8 @@ class CPU2GPU(Operator):
         self._name = "cpu2gpu"
 
     def cost(self, d: Device, data: DataParams):
+        if data.empty():
+            return 0
         return self.CPU2GPU_overhead
 
 
@@ -122,6 +126,8 @@ class GPU2CPU(Operator):
         self._name = "gpu2cpu"
 
     def cost(self, d: Device, data: DataParams):
+        if data.empty():
+            return 0
         return self.GPU2CPU_overhead
 
 
