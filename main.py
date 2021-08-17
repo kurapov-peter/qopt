@@ -4,6 +4,7 @@ from device import Device
 import graph_utils
 from plan import Plan
 from data_params import DataParams
+from optimizer import optimize
 
 
 if __name__ == '__main__':
@@ -21,4 +22,6 @@ if __name__ == '__main__':
     coeffs_len = len(p.get_features()['routers'])
     p.set_routers_coeffs([1 for _ in range(coeffs_len)])
     print(p.cost())
+
+    optimize(p)
 
