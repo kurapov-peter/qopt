@@ -4,7 +4,7 @@ from device import Device
 import graph_utils
 from plan import Plan
 from data_params import DataParams
-from optimizer import optimize
+from optimizer import optimize, genetic_search
 
 
 if __name__ == '__main__':
@@ -17,11 +17,18 @@ if __name__ == '__main__':
     final = graph_utils.finalize_graph_with(res, relops.RelSort())
     # graph_utils.display(final)
     p = Plan(final)
-    print(p.cost())
+    print('Initial const: ', p.cost())
 
     coeffs_len = len(p.get_features()['routers'])
-    p.set_routers_coeffs([1 for _ in range(coeffs_len)])
-    print(p.cost())
+    p.set_routers_use_cpu_only()
+    print('All cpu cost: ', p.cost())
+    p.set_routers_use_gpu_only()
+    print('All gpu cost: ', p.cost())
 
     optimize(p)
+
+    p.set_routers_coeffs([1 for _ in range(coeffs_len)])
+    # print(p.cost())
+
+    genetic_search(p)
 

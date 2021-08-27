@@ -50,6 +50,9 @@ class Plan(object):
 
     def set_routers_coeffs(self, coeffs: list):
         assert len(coeffs) == len(self.get_routers())
+        if not all(0 <= x <= 1 for x in coeffs):
+            print(coeffs)
+        assert all(0 <= x <= 1 for x in coeffs)
         routers = self.get_routers()
         for i in range(len(coeffs)):
             routers[i].get_op().set_input_coeff({CPU(): coeffs[i]})
