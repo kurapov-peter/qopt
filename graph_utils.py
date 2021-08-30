@@ -14,7 +14,7 @@ def display(g: nx.DiGraph, title: str = "Unnamed plan"):
     nx.draw_networkx_nodes(g, pos, nodelist=sources(g), node_color="tab:red", ax=ax)
     nx.draw_networkx_nodes(g, pos, nodelist=drains(g), node_color="tab:green", ax=ax)
     ax.set_title(title)
-    font = {"fontname": "Helvetica", "color": "g", "fontweight": "bold", "fontsize": 14}
+    font = {"fontname": "Helvetica", "color": "r", "fontweight": "bold", "fontsize": 14}
     ax.text(
         0.80,
         0.01,
@@ -23,7 +23,7 @@ def display(g: nx.DiGraph, title: str = "Unnamed plan"):
         transform=ax.transAxes,
         fontdict=font,
     )
-    font = {"fontname": "Helvetica", "color": "r", "fontweight": "bold", "fontsize": 14}
+    font = {"fontname": "Helvetica", "color": "g", "fontweight": "bold", "fontsize": 14}
     ax.text(
         0.80,
         0.00,
