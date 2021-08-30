@@ -1,4 +1,4 @@
-from device import Device, CPU
+from device import Device, CPU, GPU
 import relops
 import networkx as nx
 import graph_utils
@@ -55,7 +55,10 @@ class Plan(object):
         assert all(0 <= x <= 1 for x in coeffs)
         routers = self.get_routers()
         for i in range(len(coeffs)):
-            routers[i].get_op().set_input_coeff({CPU(): coeffs[i]})
+            if self._g.out_degree(routers[i]) == 1:
+                routers[i].get_op().set_input_coeff({CPU(): 1, GPU(): 1})
+            else:
+                routers[i].get_op().set_input_coeff({CPU(): coeffs[i], GPU(): 1 - coeffs[i]})
         self._update_routers_features()
 
     def set_routers_use_gpu_only(self):
@@ -130,6 +133,8 @@ class Plan(object):
 
             node.props['input'] = op_input
             total_cost += current_op_cost
+            # print(node, 'cost is', current_op_cost)
+            # print('Input:', op_input)
 
             for suc in self._g.successors(node):
                 if not suc.props['ready'] and all(v.props['ready'] for v in self._g.predecessors(suc)):

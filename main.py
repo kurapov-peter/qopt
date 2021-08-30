@@ -17,18 +17,20 @@ if __name__ == '__main__':
     final = graph_utils.finalize_graph_with(res, relops.RelSort())
     # graph_utils.display(final)
     p = Plan(final)
-    print('Initial const: ', p.cost())
 
     coeffs_len = len(p.get_features()['routers'])
     p.set_routers_use_cpu_only()
     print('All cpu cost: ', p.cost())
-    p.set_routers_use_gpu_only()
-    print('All gpu cost: ', p.cost())
-
-    optimize(p)
-
-    p.set_routers_coeffs([1 for _ in range(coeffs_len)])
-    # print(p.cost())
-
-    genetic_search(p)
+    # p.set_routers_use_gpu_only()
+    # print('All gpu cost: ', p.cost())
+    # p.display()
+    p.set_routers_coeffs([0.5]*coeffs_len)
+    print('Half: ', p.cost())
+    #
+    # optimize(p)
+    #
+    # p.set_routers_coeffs([1 for _ in range(coeffs_len)])
+    # # print(p.cost())
+    #
+    # genetic_search(p)
 

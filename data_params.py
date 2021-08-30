@@ -1,5 +1,6 @@
 class DataParams:
     def __init__(self, processed_bytes: int):
+        assert isinstance(processed_bytes, int)
         self._bytes = processed_bytes
 
     @property

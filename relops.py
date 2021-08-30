@@ -86,17 +86,19 @@ class Router(Operator):
 
     def __init__(self):
         self._name = "Router"
-        self._coeff = 0
+        self._cpu_coeff = 1
+        self._gpu_coeff = 0
 
     def get_input_coeff_for_device(self, device: Device):
         if isinstance(device, CPU):
-            return self._coeff
+            return self._cpu_coeff
         if isinstance(device, GPU):
-            return 1 - self._coeff
+            return self._gpu_coeff
         raise AttributeError("Unsupported device type: ", device)
 
     def set_input_coeff(self, coeff: dict):
-        self._coeff = coeff[CPU()]
+        self._cpu_coeff = coeff[CPU()]
+        self._gpu_coeff = coeff[GPU()]
 
     def cost(self, d: Device, data: DataParams):
         if data.empty():
@@ -104,7 +106,11 @@ class Router(Operator):
         return self.router_overhead
 
     def input_scale(self, data: DataParams, device: Device) -> DataParams:
-        return DataParams(data.bytes * self.get_input_coeff_for_device(device))
+        # Will induce fp errors, fixme
+        output_bytes = int(round(data.bytes * self.get_input_coeff_for_device(device)))
+        if output_bytes < 1:
+            output_bytes = 0
+        return DataParams(output_bytes)
 
 
 class CPU2GPU(Operator):
