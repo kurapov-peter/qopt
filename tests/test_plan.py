@@ -1,5 +1,6 @@
+import unittest
 from unittest import TestCase
-from data_params import DataParams
+from data_params import DataParams, Table
 import relops
 import graph_utils
 from plan import Plan
@@ -15,15 +16,13 @@ class TestPlan(TestCase):
         res = graph_utils.connect_join(scan_a, scan_b, join)
         final = graph_utils.finalize_graph_with(res, relops.RelSort())
         p = Plan(final)
-        p._update_routers_features()
-        features = p.get_features()['routers']
-        self.assertEqual(len(p.get_routers()), len(features))
-        self.assertTrue(all(feature == 0 for feature in features))
-        p.set_routers_coeffs([1 for _ in features])
-        p._update_routers_features()
         features = p.get_features()['routers']
         self.assertEqual(len(p.get_routers()), len(features))
         self.assertTrue(all(feature == 1 for feature in features))
+        p.set_routers_coeffs([0 for _ in features])
+        features = p.get_features()['routers']
+        self.assertEqual(len(p.get_routers()), len(features))
+        self.assertEqual(features, [0, 0, 0, 0, 1])  # routers with single child are always 1
 
     def test_cost(self):
         from device import CPU, GPU
@@ -49,8 +48,8 @@ class TestPlan(TestCase):
         p.set_routers_use_gpu_only()
         c = p.cost()
 
-        gpu_nodes = [node for node in p._g if node.device == GPU()] + graph_utils.get_routers(p._g)
-
+        gpu_nodes = [node for node in p._g if node.device == GPU()] + \
+                    graph_utils.get_routers(p._g) + graph_utils.drains(p._g)
         gpu_cost = 0
         for node in gpu_nodes:
             assert not isinstance(node.get_op(), relops.RelJoin)
@@ -104,6 +103,25 @@ class TestPlan(TestCase):
         d = d[0]
         sort_input = d.props['input']
         self.assertTrue(sort_input)
+
+    @unittest.skip("WIP")
+    def test_cost_join_tables(self):
+        import pandas as pd
+        import numpy as np
+        a_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'b'])
+        b_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'c'])
+        a = Table('A', a_data)
+        b = Table('B', b_data)
+
+        scan_a = graph_utils.get_het_graph_for(relops.RelScan("A", a))
+        scan_b = graph_utils.get_het_graph_for(relops.RelScan("B", b))
+        join = graph_utils.get_het_graph_for(relops.RelJoin())
+        res = graph_utils.connect_join(scan_a, scan_b, join)
+        final = graph_utils.finalize_graph_with(res, relops.RelSort())
+        p = Plan(final)
+        p.set_routers_use_cpu_only()
+        print(p.cost())
+        self.assertTrue(False)
 
     def test_complex_cost(self):
         a_data = DataParams(100)

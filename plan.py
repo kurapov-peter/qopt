@@ -3,7 +3,7 @@ import relops
 import networkx as nx
 import graph_utils
 from estimator import cost, join_cost, DataParams
-
+import data_params
 
 class PlanNode(object):
     def __init__(self, op: relops.Operator, dev: Device):
@@ -73,7 +73,6 @@ class Plan(object):
         self._cleanup()
         self._update_input_costs(input_data)
         return self._calculate_cost()
-        # return sum([cost(x.get_op(), x.device, DataParams.plan_input()) for x in self._g])
 
     def display(self):
         graph_utils.display(self._g)
@@ -119,11 +118,12 @@ class Plan(object):
             elif isinstance(node.get_op(), relops.RelJoin):
                 assert predecessors_num > 1
                 pred = list(self._g.predecessors(node))
-                op_input = DataParams(pred[0].props['input'].bytes * pred[1].props['input'].bytes)  # fixme
+                op_input = node.get_op().join(pred[0].props['input'], pred[1].props['input'])
                 current_op_cost = join_cost(node.get_op(), node.device,
                                             [v.props['input'] for v in self._g.predecessors(node)])
             elif isinstance(node.get_op(), relops.Router):
-                op_input = DataParams(sum(x.props['input'].bytes for x in self._g.predecessors(node)))
+                predecessors_data = [x.props['input'] for x in self._g.predecessors(node)]
+                op_input = data_params.merge(predecessors_data)
                 current_op_cost = cost(node.get_op(), node.device, op_input)
             else:
                 assert len(list(self._g.predecessors(node))) == 1

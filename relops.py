@@ -58,7 +58,7 @@ class RelFilter(RelOp):
         return self._sel
 
     def input_scale(self, data: DataParams, device: Device):
-        return DataParams(data.bytes * self._sel)
+        return data.get_scaled(self._sel)
 
 
 class RelAgg(RelOp):
@@ -69,6 +69,10 @@ class RelAgg(RelOp):
 class RelJoin(RelOp):
     def __init__(self):
         self._name = "RelJoin"
+
+    # call it input scale ?
+    def join(self, lhs: DataParams, rhs: DataParams) -> DataParams:
+        return DataParams(lhs.bytes * rhs.bytes)
 
 
 class RelSort(RelOp):
