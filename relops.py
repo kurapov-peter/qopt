@@ -1,5 +1,5 @@
 from device import Device, CPU, GPU
-from data_params import DataParams
+from data_params import DataParams, Table
 
 
 class Operator(object):
@@ -67,11 +67,14 @@ class RelAgg(RelOp):
 
 
 class RelJoin(RelOp):
-    def __init__(self):
+    def __init__(self, on=None):
         self._name = "RelJoin"
+        self._on = on
 
-    # call it input scale ?
     def join(self, lhs: DataParams, rhs: DataParams) -> DataParams:
+        if isinstance(lhs, Table) and isinstance(rhs, Table):
+            assert self._on is not None
+            return Table(lhs.name + '_' + rhs.name, lhs.data.merge(rhs.data, on=self._on))
         return DataParams(lhs.bytes * rhs.bytes)
 
 
@@ -110,11 +113,7 @@ class Router(Operator):
         return self.router_overhead
 
     def input_scale(self, data: DataParams, device: Device) -> DataParams:
-        # Will induce fp errors, fixme
-        output_bytes = int(round(data.bytes * self.get_input_coeff_for_device(device)))
-        if output_bytes < 1:
-            output_bytes = 0
-        return DataParams(output_bytes)
+        return data.get_scaled(self.get_input_coeff_for_device(device))
 
 
 class CPU2GPU(Operator):

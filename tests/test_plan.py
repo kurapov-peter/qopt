@@ -104,24 +104,29 @@ class TestPlan(TestCase):
         sort_input = d.props['input']
         self.assertTrue(sort_input)
 
-    @unittest.skip("WIP")
+    # @unittest.skip("")
     def test_cost_join_tables(self):
         import pandas as pd
         import numpy as np
-        a_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'b'])
-        b_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'c'])
+        # a_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'b'])
+        # b_data = pd.DataFrame(np.random.randint(0, 100, size=(100, 2)), columns=['a', 'c'])
+        a_data = pd.DataFrame({'a': [1, 2, 3], 'b': [1, 2, 3]})
+        b_data = pd.DataFrame({'a': [1, 2, 1], 'c': [1, 2, 3]})
         a = Table('A', a_data)
         b = Table('B', b_data)
 
+        self.assertEqual(a.bytes, 2*3*64)
+        self.assertEqual(a.bytes, b.bytes)
+
         scan_a = graph_utils.get_het_graph_for(relops.RelScan("A", a))
-        scan_b = graph_utils.get_het_graph_for(relops.RelScan("B", b))
-        join = graph_utils.get_het_graph_for(relops.RelJoin())
+        scan_b = graph_utils.get_het_graph_for(relops.RelScan("C", b))
+        join = graph_utils.get_het_graph_for(relops.RelJoin(on='a'))
         res = graph_utils.connect_join(scan_a, scan_b, join)
         final = graph_utils.finalize_graph_with(res, relops.RelSort())
         p = Plan(final)
         p.set_routers_use_cpu_only()
         print(p.cost())
-        self.assertTrue(False)
+        # self.fail()
 
     def test_complex_cost(self):
         a_data = DataParams(100)
@@ -132,5 +137,6 @@ class TestPlan(TestCase):
         res = graph_utils.connect_join(scan_a, scan_b, join)
         final = graph_utils.finalize_graph_with(res, relops.RelSort())
         p = Plan(final)
+        p.cost()
         # p.display()
         # self.fail()
