@@ -19,7 +19,7 @@ def get_relop(rel):
     if relop_name == 'LogicalSort':
         return relops.RelSort()
     if relop_name == 'LogicalUnion':
-        return None
+        raise NotImplementedError("Unions are not implemented.")
 
 
 def get_plan(data):
