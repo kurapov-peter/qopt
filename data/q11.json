@@ -1,0 +1,486 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "PS_PARTKEY",
+        "PS_SUPPKEY",
+        "PS_AVAILQTY",
+        "PS_SUPPLYCOST",
+        "PS_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "PARTSUPP"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "S_SUPPKEY",
+        "S_NAME",
+        "S_ADDRESS",
+        "S_NATIONKEY",
+        "S_PHONE",
+        "S_ACCTBAL",
+        "S_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "SUPPLIER"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "N_NATIONKEY",
+        "N_NAME",
+        "N_REGIONKEY",
+        "N_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "NATION"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 1
+              },
+              {
+                "input": 6
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 9
+              },
+              {
+                "input": 14
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 15
+              },
+              {
+                "literal": "GERMANY",
+                "type": "CHAR",
+                "target_type": "VARCHAR",
+                "scale": -2147483648,
+                "precision": 50,
+                "type_scale": -2147483648,
+                "type_precision": 50
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalProject",
+      "fields": [
+        "ps_partkey",
+        "$f1"
+      ],
+      "exprs": [
+        {
+          "input": 0
+        },
+        {
+          "op": "*",
+          "operands": [
+            {
+              "input": 3
+            },
+            {
+              "input": 2
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "ps_partkey",
+        "v1"
+      ],
+      "group": [
+        0
+      ],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 2
+          },
+          "distinct": false,
+          "operands": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": ">",
+        "operands": [
+          {
+            "input": 1
+          },
+          {
+            "op": "$SCALAR_QUERY",
+            "operands": [],
+            "type": {
+              "type": "DECIMAL",
+              "nullable": true,
+              "precision": 19,
+              "scale": 12
+            },
+            "subquery": {
+              "rels": [
+                {
+                  "id": "0",
+                  "relOp": "LogicalTableScan",
+                  "fieldNames": [
+                    "PS_PARTKEY",
+                    "PS_SUPPKEY",
+                    "PS_AVAILQTY",
+                    "PS_SUPPLYCOST",
+                    "PS_COMMENT",
+                    "rowid"
+                  ],
+                  "table": [
+                    "omnisci",
+                    "PARTSUPP"
+                  ],
+                  "inputs": []
+                },
+                {
+                  "id": "1",
+                  "relOp": "LogicalTableScan",
+                  "fieldNames": [
+                    "S_SUPPKEY",
+                    "S_NAME",
+                    "S_ADDRESS",
+                    "S_NATIONKEY",
+                    "S_PHONE",
+                    "S_ACCTBAL",
+                    "S_COMMENT",
+                    "rowid"
+                  ],
+                  "table": [
+                    "omnisci",
+                    "SUPPLIER"
+                  ],
+                  "inputs": []
+                },
+                {
+                  "id": "2",
+                  "relOp": "LogicalJoin",
+                  "condition": {
+                    "literal": true,
+                    "type": "BOOLEAN",
+                    "target_type": "BOOLEAN",
+                    "scale": -2147483648,
+                    "precision": 1,
+                    "type_scale": -2147483648,
+                    "type_precision": 1
+                  },
+                  "joinType": "inner",
+                  "inputs": [
+                    "0",
+                    "1"
+                  ]
+                },
+                {
+                  "id": "3",
+                  "relOp": "LogicalTableScan",
+                  "fieldNames": [
+                    "N_NATIONKEY",
+                    "N_NAME",
+                    "N_REGIONKEY",
+                    "N_COMMENT",
+                    "rowid"
+                  ],
+                  "table": [
+                    "omnisci",
+                    "NATION"
+                  ],
+                  "inputs": []
+                },
+                {
+                  "id": "4",
+                  "relOp": "LogicalJoin",
+                  "condition": {
+                    "literal": true,
+                    "type": "BOOLEAN",
+                    "target_type": "BOOLEAN",
+                    "scale": -2147483648,
+                    "precision": 1,
+                    "type_scale": -2147483648,
+                    "type_precision": 1
+                  },
+                  "joinType": "inner",
+                  "inputs": [
+                    "2",
+                    "3"
+                  ]
+                },
+                {
+                  "id": "5",
+                  "relOp": "LogicalFilter",
+                  "condition": {
+                    "op": "AND",
+                    "operands": [
+                      {
+                        "op": "=",
+                        "operands": [
+                          {
+                            "input": 1
+                          },
+                          {
+                            "input": 6
+                          }
+                        ],
+                        "type": {
+                          "type": "BOOLEAN",
+                          "nullable": true
+                        }
+                      },
+                      {
+                        "op": "=",
+                        "operands": [
+                          {
+                            "input": 9
+                          },
+                          {
+                            "input": 14
+                          }
+                        ],
+                        "type": {
+                          "type": "BOOLEAN",
+                          "nullable": true
+                        }
+                      },
+                      {
+                        "op": "=",
+                        "operands": [
+                          {
+                            "input": 15
+                          },
+                          {
+                            "literal": "GERMANY",
+                            "type": "CHAR",
+                            "target_type": "VARCHAR",
+                            "scale": -2147483648,
+                            "precision": 50,
+                            "type_scale": -2147483648,
+                            "type_precision": 50
+                          }
+                        ],
+                        "type": {
+                          "type": "BOOLEAN",
+                          "nullable": true
+                        }
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "id": "6",
+                  "relOp": "LogicalProject",
+                  "fields": [
+                    "$f0"
+                  ],
+                  "exprs": [
+                    {
+                      "op": "*",
+                      "operands": [
+                        {
+                          "input": 3
+                        },
+                        {
+                          "input": 2
+                        }
+                      ],
+                      "type": {
+                        "type": "DECIMAL",
+                        "nullable": true,
+                        "precision": 19,
+                        "scale": 2
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "7",
+                  "relOp": "LogicalAggregate",
+                  "fields": [
+                    "$f0"
+                  ],
+                  "group": [],
+                  "aggs": [
+                    {
+                      "agg": "SUM",
+                      "type": {
+                        "type": "DECIMAL",
+                        "nullable": true,
+                        "precision": 19,
+                        "scale": 2
+                      },
+                      "distinct": false,
+                      "operands": [
+                        0
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "8",
+                  "relOp": "LogicalProject",
+                  "fields": [
+                    "EXPR$0"
+                  ],
+                  "exprs": [
+                    {
+                      "op": "*",
+                      "operands": [
+                        {
+                          "input": 0
+                        },
+                        {
+                          "literal": 1000000,
+                          "type": "DECIMAL",
+                          "target_type": "DECIMAL",
+                          "scale": 10,
+                          "precision": 7,
+                          "type_scale": 10,
+                          "type_precision": 11
+                        }
+                      ],
+                      "type": {
+                        "type": "DECIMAL",
+                        "nullable": true,
+                        "precision": 19,
+                        "scale": 12
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "9",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 1,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        }
+      ]
+    }
+  ]
+}

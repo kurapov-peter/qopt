@@ -1,0 +1,343 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "C_CUSTKEY",
+        "C_NAME",
+        "C_ADDRESS",
+        "C_NATIONKEY",
+        "C_PHONE",
+        "C_ACCTBAL",
+        "C_MKTSEGMENT",
+        "C_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "CUSTOMER"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "O_ORDERKEY",
+        "O_CUSTKEY",
+        "O_ORDERSTATUS",
+        "O_TOTALPRICE",
+        "O_ORDERDATE",
+        "O_ORDERPRIORITY",
+        "O_CLERK",
+        "O_SHIPPRIORITY",
+        "O_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "ORDERS"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "L_ORDERKEY",
+        "L_PARTKEY",
+        "L_SUPPKEY",
+        "L_LINENUMBER",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "L_DISCOUNT",
+        "L_TAX",
+        "L_RETURNFLAG",
+        "L_LINESTATUS",
+        "L_SHIPDATE",
+        "L_COMMITDATE",
+        "L_RECEIPTDATE",
+        "L_SHIPINSTRUCT",
+        "L_SHIPMODE",
+        "L_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "LINEITEM"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 6
+              },
+              {
+                "literal": "BUILDING",
+                "type": "CHAR",
+                "target_type": "VARCHAR",
+                "scale": -2147483648,
+                "precision": 50,
+                "type_scale": -2147483648,
+                "type_precision": 50
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 0
+              },
+              {
+                "input": 10
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 19
+              },
+              {
+                "input": 9
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "<",
+            "operands": [
+              {
+                "input": 13
+              },
+              {
+                "literal": 9204,
+                "type": "DATE",
+                "target_type": "DATE",
+                "scale": -2147483648,
+                "precision": 0,
+                "type_scale": -2147483648,
+                "type_precision": 0
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": ">",
+            "operands": [
+              {
+                "input": 29
+              },
+              {
+                "literal": 9204,
+                "type": "DATE",
+                "target_type": "DATE",
+                "scale": -2147483648,
+                "precision": 0,
+                "type_scale": -2147483648,
+                "type_precision": 0
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalProject",
+      "fields": [
+        "l_orderkey",
+        "o_orderdate",
+        "o_shippriority",
+        "$f3"
+      ],
+      "exprs": [
+        {
+          "input": 19
+        },
+        {
+          "input": 13
+        },
+        {
+          "input": 16
+        },
+        {
+          "op": "*",
+          "operands": [
+            {
+              "input": 24
+            },
+            {
+              "op": "-",
+              "operands": [
+                {
+                  "literal": 1,
+                  "type": "DECIMAL",
+                  "target_type": "INTEGER",
+                  "scale": 0,
+                  "precision": 1,
+                  "type_scale": 0,
+                  "type_precision": 10
+                },
+                {
+                  "input": 25
+                }
+              ],
+              "type": {
+                "type": "DECIMAL",
+                "nullable": true,
+                "precision": 17,
+                "scale": 2
+              }
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "l_orderkey",
+        "o_orderdate",
+        "o_shippriority",
+        "revenue"
+      ],
+      "group": [
+        0,
+        1,
+        2
+      ],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          },
+          "distinct": false,
+          "operands": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "relOp": "LogicalProject",
+      "fields": [
+        "l_orderkey",
+        "revenue",
+        "o_orderdate",
+        "o_shippriority"
+      ],
+      "exprs": [
+        {
+          "input": 0
+        },
+        {
+          "input": 3
+        },
+        {
+          "input": 1
+        },
+        {
+          "input": 2
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 1,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        },
+        {
+          "field": 2,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        }
+      ]
+    }
+  ]
+}

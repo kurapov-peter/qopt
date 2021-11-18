@@ -1,0 +1,343 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "L_ORDERKEY",
+        "L_PARTKEY",
+        "L_SUPPKEY",
+        "L_LINENUMBER",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "L_DISCOUNT",
+        "L_TAX",
+        "L_RETURNFLAG",
+        "L_LINESTATUS",
+        "L_SHIPDATE",
+        "L_COMMITDATE",
+        "L_RECEIPTDATE",
+        "L_SHIPINSTRUCT",
+        "L_SHIPMODE",
+        "L_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "LINEITEM"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "<=",
+        "operands": [
+          {
+            "input": 10
+          },
+          {
+            "op": "-",
+            "operands": [
+              {
+                "literal": 10561,
+                "type": "DATE",
+                "target_type": "DATE",
+                "scale": -2147483648,
+                "precision": 0,
+                "type_scale": -2147483648,
+                "type_precision": 0
+              },
+              {
+                "literal": 7776000000,
+                "type": "INTERVAL_DAY",
+                "target_type": "INTERVAL_DAY",
+                "scale": 0,
+                "precision": 10,
+                "type_scale": 6,
+                "type_precision": 3
+              }
+            ],
+            "type": {
+              "type": "DATE",
+              "nullable": false
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalProject",
+      "fields": [
+        "l_returnflag",
+        "l_linestatus",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "$f4",
+        "$f5",
+        "L_DISCOUNT"
+      ],
+      "exprs": [
+        {
+          "input": 8
+        },
+        {
+          "input": 9
+        },
+        {
+          "input": 4
+        },
+        {
+          "input": 5
+        },
+        {
+          "op": "*",
+          "operands": [
+            {
+              "input": 5
+            },
+            {
+              "op": "-",
+              "operands": [
+                {
+                  "literal": 1,
+                  "type": "DECIMAL",
+                  "target_type": "INTEGER",
+                  "scale": 0,
+                  "precision": 1,
+                  "type_scale": 0,
+                  "type_precision": 10
+                },
+                {
+                  "input": 6
+                }
+              ],
+              "type": {
+                "type": "DECIMAL",
+                "nullable": true,
+                "precision": 17,
+                "scale": 2
+              }
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          }
+        },
+        {
+          "op": "*",
+          "operands": [
+            {
+              "op": "*",
+              "operands": [
+                {
+                  "input": 5
+                },
+                {
+                  "op": "-",
+                  "operands": [
+                    {
+                      "literal": 1,
+                      "type": "DECIMAL",
+                      "target_type": "INTEGER",
+                      "scale": 0,
+                      "precision": 1,
+                      "type_scale": 0,
+                      "type_precision": 10
+                    },
+                    {
+                      "input": 6
+                    }
+                  ],
+                  "type": {
+                    "type": "DECIMAL",
+                    "nullable": true,
+                    "precision": 17,
+                    "scale": 2
+                  }
+                }
+              ],
+              "type": {
+                "type": "DECIMAL",
+                "nullable": true,
+                "precision": 19,
+                "scale": 4
+              }
+            },
+            {
+              "op": "+",
+              "operands": [
+                {
+                  "literal": 1,
+                  "type": "DECIMAL",
+                  "target_type": "INTEGER",
+                  "scale": 0,
+                  "precision": 1,
+                  "type_scale": 0,
+                  "type_precision": 10
+                },
+                {
+                  "input": 7
+                }
+              ],
+              "type": {
+                "type": "DECIMAL",
+                "nullable": true,
+                "precision": 17,
+                "scale": 2
+              }
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 6
+          }
+        },
+        {
+          "input": 6
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "l_returnflag",
+        "l_linestatus",
+        "sum_qty",
+        "sum_base_price",
+        "sum_disc_price",
+        "sum_charge",
+        "avg_qty",
+        "avg_price",
+        "avg_disc",
+        "count_order"
+      ],
+      "group": [
+        0,
+        1
+      ],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "INTEGER",
+            "nullable": true
+          },
+          "distinct": false,
+          "operands": [
+            2
+          ]
+        },
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 2
+          },
+          "distinct": false,
+          "operands": [
+            3
+          ]
+        },
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          },
+          "distinct": false,
+          "operands": [
+            4
+          ]
+        },
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 6
+          },
+          "distinct": false,
+          "operands": [
+            5
+          ]
+        },
+        {
+          "agg": "AVG",
+          "type": {
+            "type": "DOUBLE",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": [
+            2
+          ]
+        },
+        {
+          "agg": "AVG",
+          "type": {
+            "type": "DOUBLE",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": [
+            3
+          ]
+        },
+        {
+          "agg": "AVG",
+          "type": {
+            "type": "DOUBLE",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": [
+            6
+          ]
+        },
+        {
+          "agg": "COUNT",
+          "type": {
+            "type": "BIGINT",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": []
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 0,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        },
+        {
+          "field": 1,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        }
+      ]
+    }
+  ]
+}

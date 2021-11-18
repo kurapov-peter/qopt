@@ -1,0 +1,475 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "PS_PARTKEY",
+        "PS_SUPPKEY",
+        "PS_AVAILQTY",
+        "PS_SUPPLYCOST",
+        "PS_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "PARTSUPP"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "P_PARTKEY",
+        "P_NAME",
+        "P_MFGR",
+        "P_BRAND",
+        "P_TYPE",
+        "P_SIZE",
+        "P_CONTAINER",
+        "P_RETAILPRICE",
+        "P_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "PART"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 6
+              },
+              {
+                "input": 0
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "<>",
+            "operands": [
+              {
+                "input": 9
+              },
+              {
+                "literal": "Brand#45",
+                "type": "CHAR",
+                "target_type": "VARCHAR",
+                "scale": -2147483648,
+                "precision": 50,
+                "type_scale": -2147483648,
+                "type_precision": 50
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "NOT",
+            "operands": [
+              {
+                "op": "LIKE",
+                "operands": [
+                  {
+                    "input": 10
+                  },
+                  {
+                    "literal": "MEDIUM POLISHED%",
+                    "type": "CHAR",
+                    "target_type": "CHAR",
+                    "scale": -2147483648,
+                    "precision": 16,
+                    "type_scale": -2147483648,
+                    "type_precision": 16
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "OR",
+            "operands": [
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 49,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 14,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 23,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 45,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 19,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 3,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 36,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 11
+                  },
+                  {
+                    "literal": 9,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "NOT",
+            "operands": [
+              {
+                "op": "IN",
+                "operands": [
+                  {
+                    "input": 1
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                },
+                "subquery": {
+                  "rels": [
+                    {
+                      "id": "0",
+                      "relOp": "LogicalTableScan",
+                      "fieldNames": [
+                        "S_SUPPKEY",
+                        "S_NAME",
+                        "S_ADDRESS",
+                        "S_NATIONKEY",
+                        "S_PHONE",
+                        "S_ACCTBAL",
+                        "S_COMMENT",
+                        "rowid"
+                      ],
+                      "table": [
+                        "omnisci",
+                        "SUPPLIER"
+                      ],
+                      "inputs": []
+                    },
+                    {
+                      "id": "1",
+                      "relOp": "LogicalFilter",
+                      "condition": {
+                        "op": "LIKE",
+                        "operands": [
+                          {
+                            "input": 6
+                          },
+                          {
+                            "literal": "%Customer%Complaints%",
+                            "type": "CHAR",
+                            "target_type": "CHAR",
+                            "scale": -2147483648,
+                            "precision": 21,
+                            "type_scale": -2147483648,
+                            "type_precision": 21
+                          }
+                        ],
+                        "type": {
+                          "type": "BOOLEAN",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    {
+                      "id": "2",
+                      "relOp": "LogicalProject",
+                      "fields": [
+                        "s_suppkey"
+                      ],
+                      "exprs": [
+                        {
+                          "input": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalProject",
+      "fields": [
+        "p_brand",
+        "p_type",
+        "p_size",
+        "PS_SUPPKEY"
+      ],
+      "exprs": [
+        {
+          "input": 9
+        },
+        {
+          "input": 10
+        },
+        {
+          "input": 11
+        },
+        {
+          "input": 1
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "p_brand",
+        "p_type",
+        "p_size",
+        "supplier_cnt"
+      ],
+      "group": [
+        0,
+        1,
+        2
+      ],
+      "aggs": [
+        {
+          "agg": "COUNT",
+          "type": {
+            "type": "BIGINT",
+            "nullable": false
+          },
+          "distinct": true,
+          "operands": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 3,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        },
+        {
+          "field": 0,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        },
+        {
+          "field": 1,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        },
+        {
+          "field": 2,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1089 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "L_ORDERKEY",
+        "L_PARTKEY",
+        "L_SUPPKEY",
+        "L_LINENUMBER",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "L_DISCOUNT",
+        "L_TAX",
+        "L_RETURNFLAG",
+        "L_LINESTATUS",
+        "L_SHIPDATE",
+        "L_COMMITDATE",
+        "L_RECEIPTDATE",
+        "L_SHIPINSTRUCT",
+        "L_SHIPMODE",
+        "L_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "LINEITEM"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "P_PARTKEY",
+        "P_NAME",
+        "P_MFGR",
+        "P_BRAND",
+        "P_TYPE",
+        "P_SIZE",
+        "P_CONTAINER",
+        "P_RETAILPRICE",
+        "P_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "PART"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "OR",
+        "operands": [
+          {
+            "op": "AND",
+            "operands": [
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 17
+                  },
+                  {
+                    "input": 1
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 20
+                  },
+                  {
+                    "literal": "Brand#12",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "SM CASE",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "SM BOX",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 6,
+                        "type_scale": -2147483648,
+                        "type_precision": 6
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "SM PACK",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "SM PKG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 6,
+                        "type_scale": -2147483648,
+                        "type_precision": 6
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "op": "+",
+                    "operands": [
+                      {
+                        "literal": 1,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 1,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      },
+                      {
+                        "literal": 10,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 2,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      }
+                    ],
+                    "type": {
+                      "type": "INTEGER",
+                      "nullable": false
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 5,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 3,
+                        "type_scale": -2147483648,
+                        "type_precision": 3
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR REG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 13
+                  },
+                  {
+                    "literal": "DELIVER IN PERSON",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "AND",
+            "operands": [
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 17
+                  },
+                  {
+                    "input": 1
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 20
+                  },
+                  {
+                    "literal": "Brand#23",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "MED BAG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "MED BOX",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "MED PKG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "MED PACK",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 8,
+                        "type_scale": -2147483648,
+                        "type_precision": 8
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "literal": 10,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "op": "+",
+                    "operands": [
+                      {
+                        "literal": 10,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 2,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      },
+                      {
+                        "literal": 10,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 2,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      }
+                    ],
+                    "type": {
+                      "type": "INTEGER",
+                      "nullable": false
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 10,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 3,
+                        "type_scale": -2147483648,
+                        "type_precision": 3
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR REG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 13
+                  },
+                  {
+                    "literal": "DELIVER IN PERSON",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "AND",
+            "operands": [
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 17
+                  },
+                  {
+                    "input": 1
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 20
+                  },
+                  {
+                    "literal": "Brand#34",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "LG CASE",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "LG BOX",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 6,
+                        "type_scale": -2147483648,
+                        "type_precision": 6
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "LG PACK",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 23
+                      },
+                      {
+                        "literal": "LG PKG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 6,
+                        "type_scale": -2147483648,
+                        "type_precision": 6
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "literal": 20,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 4
+                  },
+                  {
+                    "op": "+",
+                    "operands": [
+                      {
+                        "literal": 20,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 2,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      },
+                      {
+                        "literal": 10,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 2,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      }
+                    ],
+                    "type": {
+                      "type": "INTEGER",
+                      "nullable": false
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": ">=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 1,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "<=",
+                "operands": [
+                  {
+                    "input": 22
+                  },
+                  {
+                    "literal": 15,
+                    "type": "DECIMAL",
+                    "target_type": "INTEGER",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 0,
+                    "type_precision": 10
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "OR",
+                "operands": [
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 3,
+                        "type_scale": -2147483648,
+                        "type_precision": 3
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  },
+                  {
+                    "op": "=",
+                    "operands": [
+                      {
+                        "input": 14
+                      },
+                      {
+                        "literal": "AIR REG",
+                        "type": "CHAR",
+                        "target_type": "CHAR",
+                        "scale": -2147483648,
+                        "precision": 7,
+                        "type_scale": -2147483648,
+                        "type_precision": 7
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              },
+              {
+                "op": "=",
+                "operands": [
+                  {
+                    "input": 13
+                  },
+                  {
+                    "literal": "DELIVER IN PERSON",
+                    "type": "CHAR",
+                    "target_type": "VARCHAR",
+                    "scale": -2147483648,
+                    "precision": 50,
+                    "type_scale": -2147483648,
+                    "type_precision": 50
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalProject",
+      "fields": [
+        "$f0"
+      ],
+      "exprs": [
+        {
+          "op": "*",
+          "operands": [
+            {
+              "input": 5
+            },
+            {
+              "op": "-",
+              "operands": [
+                {
+                  "literal": 1,
+                  "type": "DECIMAL",
+                  "target_type": "INTEGER",
+                  "scale": 0,
+                  "precision": 1,
+                  "type_scale": 0,
+                  "type_precision": 10
+                },
+                {
+                  "input": 6
+                }
+              ],
+              "type": {
+                "type": "DECIMAL",
+                "nullable": true,
+                "precision": 17,
+                "scale": 2
+              }
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "revenue"
+      ],
+      "group": [],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          },
+          "distinct": false,
+          "operands": [
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

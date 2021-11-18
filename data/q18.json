@@ -1,0 +1,353 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "C_CUSTKEY",
+        "C_NAME",
+        "C_ADDRESS",
+        "C_NATIONKEY",
+        "C_PHONE",
+        "C_ACCTBAL",
+        "C_MKTSEGMENT",
+        "C_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "CUSTOMER"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "O_ORDERKEY",
+        "O_CUSTKEY",
+        "O_ORDERSTATUS",
+        "O_TOTALPRICE",
+        "O_ORDERDATE",
+        "O_ORDERPRIORITY",
+        "O_CLERK",
+        "O_SHIPPRIORITY",
+        "O_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "ORDERS"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "L_ORDERKEY",
+        "L_PARTKEY",
+        "L_SUPPKEY",
+        "L_LINENUMBER",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "L_DISCOUNT",
+        "L_TAX",
+        "L_RETURNFLAG",
+        "L_LINESTATUS",
+        "L_SHIPDATE",
+        "L_COMMITDATE",
+        "L_RECEIPTDATE",
+        "L_SHIPINSTRUCT",
+        "L_SHIPMODE",
+        "L_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "LINEITEM"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "literal": true,
+        "type": "BOOLEAN",
+        "target_type": "BOOLEAN",
+        "scale": -2147483648,
+        "precision": 1,
+        "type_scale": -2147483648,
+        "type_precision": 1
+      },
+      "joinType": "inner",
+      "inputs": [
+        "2",
+        "3"
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "IN",
+            "operands": [
+              {
+                "input": 9
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            },
+            "subquery": {
+              "rels": [
+                {
+                  "id": "0",
+                  "relOp": "LogicalTableScan",
+                  "fieldNames": [
+                    "L_ORDERKEY",
+                    "L_PARTKEY",
+                    "L_SUPPKEY",
+                    "L_LINENUMBER",
+                    "L_QUANTITY",
+                    "L_EXTENDEDPRICE",
+                    "L_DISCOUNT",
+                    "L_TAX",
+                    "L_RETURNFLAG",
+                    "L_LINESTATUS",
+                    "L_SHIPDATE",
+                    "L_COMMITDATE",
+                    "L_RECEIPTDATE",
+                    "L_SHIPINSTRUCT",
+                    "L_SHIPMODE",
+                    "L_COMMENT",
+                    "rowid"
+                  ],
+                  "table": [
+                    "omnisci",
+                    "LINEITEM"
+                  ],
+                  "inputs": []
+                },
+                {
+                  "id": "1",
+                  "relOp": "LogicalProject",
+                  "fields": [
+                    "l_orderkey",
+                    "L_QUANTITY"
+                  ],
+                  "exprs": [
+                    {
+                      "input": 0
+                    },
+                    {
+                      "input": 4
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "relOp": "LogicalAggregate",
+                  "fields": [
+                    "l_orderkey",
+                    "$f1"
+                  ],
+                  "group": [
+                    0
+                  ],
+                  "aggs": [
+                    {
+                      "agg": "SUM",
+                      "type": {
+                        "type": "INTEGER",
+                        "nullable": true
+                      },
+                      "distinct": false,
+                      "operands": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "relOp": "LogicalFilter",
+                  "condition": {
+                    "op": ">",
+                    "operands": [
+                      {
+                        "input": 1
+                      },
+                      {
+                        "literal": 300,
+                        "type": "DECIMAL",
+                        "target_type": "INTEGER",
+                        "scale": 0,
+                        "precision": 3,
+                        "type_scale": 0,
+                        "type_precision": 10
+                      }
+                    ],
+                    "type": {
+                      "type": "BOOLEAN",
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "id": "4",
+                  "relOp": "LogicalProject",
+                  "fields": [
+                    "l_orderkey"
+                  ],
+                  "exprs": [
+                    {
+                      "input": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 0
+              },
+              {
+                "input": 10
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 9
+              },
+              {
+                "input": 19
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalProject",
+      "fields": [
+        "c_name",
+        "c_custkey",
+        "o_orderkey",
+        "o_orderdate",
+        "o_totalprice",
+        "L_QUANTITY"
+      ],
+      "exprs": [
+        {
+          "input": 1
+        },
+        {
+          "input": 0
+        },
+        {
+          "input": 9
+        },
+        {
+          "input": 13
+        },
+        {
+          "input": 12
+        },
+        {
+          "input": 23
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "c_name",
+        "c_custkey",
+        "o_orderkey",
+        "o_orderdate",
+        "o_totalprice",
+        "EXPR$5"
+      ],
+      "group": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "INTEGER",
+            "nullable": true
+          },
+          "distinct": false,
+          "operands": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 4,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        },
+        {
+          "field": 3,
+          "direction": "ASCENDING",
+          "nulls": "LAST"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "L_ORDERKEY",
+        "L_PARTKEY",
+        "L_SUPPKEY",
+        "L_LINENUMBER",
+        "L_QUANTITY",
+        "L_EXTENDEDPRICE",
+        "L_DISCOUNT",
+        "L_TAX",
+        "L_RETURNFLAG",
+        "L_LINESTATUS",
+        "L_SHIPDATE",
+        "L_COMMITDATE",
+        "L_RECEIPTDATE",
+        "L_SHIPINSTRUCT",
+        "L_SHIPMODE",
+        "L_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "LINEITEM"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalFilter",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": ">=",
+            "operands": [
+              {
+                "input": 10
+              },
+              {
+                "literal": 8766,
+                "type": "DATE",
+                "target_type": "DATE",
+                "scale": -2147483648,
+                "precision": 0,
+                "type_scale": -2147483648,
+                "type_precision": 0
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "<",
+            "operands": [
+              {
+                "input": 10
+              },
+              {
+                "op": "+",
+                "operands": [
+                  {
+                    "literal": 8766,
+                    "type": "DATE",
+                    "target_type": "DATE",
+                    "scale": -2147483648,
+                    "precision": 0,
+                    "type_scale": -2147483648,
+                    "type_precision": 0
+                  },
+                  {
+                    "literal": 12,
+                    "type": "INTERVAL_YEAR",
+                    "target_type": "INTERVAL_YEAR",
+                    "scale": 0,
+                    "precision": 2,
+                    "type_scale": 6,
+                    "type_precision": 2
+                  }
+                ],
+                "type": {
+                  "type": "DATE",
+                  "nullable": false
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": ">=",
+            "operands": [
+              {
+                "input": 6
+              },
+              {
+                "op": "-",
+                "operands": [
+                  {
+                    "literal": 6,
+                    "type": "DECIMAL",
+                    "target_type": "DECIMAL",
+                    "scale": 2,
+                    "precision": 1,
+                    "type_scale": 2,
+                    "type_precision": 3
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "DECIMAL",
+                    "scale": 2,
+                    "precision": 1,
+                    "type_scale": 2,
+                    "type_precision": 3
+                  }
+                ],
+                "type": {
+                  "type": "DECIMAL",
+                  "nullable": false,
+                  "precision": 4,
+                  "scale": 2
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "<=",
+            "operands": [
+              {
+                "input": 6
+              },
+              {
+                "op": "+",
+                "operands": [
+                  {
+                    "literal": 6,
+                    "type": "DECIMAL",
+                    "target_type": "DECIMAL",
+                    "scale": 2,
+                    "precision": 1,
+                    "type_scale": 2,
+                    "type_precision": 3
+                  },
+                  {
+                    "literal": 1,
+                    "type": "DECIMAL",
+                    "target_type": "DECIMAL",
+                    "scale": 2,
+                    "precision": 1,
+                    "type_scale": 2,
+                    "type_precision": 3
+                  }
+                ],
+                "type": {
+                  "type": "DECIMAL",
+                  "nullable": false,
+                  "precision": 4,
+                  "scale": 2
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "<",
+            "operands": [
+              {
+                "input": 4
+              },
+              {
+                "literal": 24,
+                "type": "DECIMAL",
+                "target_type": "INTEGER",
+                "scale": 0,
+                "precision": 2,
+                "type_scale": 0,
+                "type_precision": 10
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      }
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalProject",
+      "fields": [
+        "$f0"
+      ],
+      "exprs": [
+        {
+          "op": "*",
+          "operands": [
+            {
+              "input": 5
+            },
+            {
+              "input": 6
+            }
+          ],
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "revenue"
+      ],
+      "group": [],
+      "aggs": [
+        {
+          "agg": "SUM",
+          "type": {
+            "type": "DECIMAL",
+            "nullable": true,
+            "precision": 19,
+            "scale": 4
+          },
+          "distinct": false,
+          "operands": [
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "C_CUSTKEY",
+        "C_NAME",
+        "C_ADDRESS",
+        "C_NATIONKEY",
+        "C_PHONE",
+        "C_ACCTBAL",
+        "C_MKTSEGMENT",
+        "C_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "CUSTOMER"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "O_ORDERKEY",
+        "O_CUSTKEY",
+        "O_ORDERSTATUS",
+        "O_TOTALPRICE",
+        "O_ORDERDATE",
+        "O_ORDERPRIORITY",
+        "O_CLERK",
+        "O_SHIPPRIORITY",
+        "O_COMMENT",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "ORDERS"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "op": "AND",
+        "operands": [
+          {
+            "op": "=",
+            "operands": [
+              {
+                "input": 0
+              },
+              {
+                "input": 10
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          },
+          {
+            "op": "NOT",
+            "operands": [
+              {
+                "op": "LIKE",
+                "operands": [
+                  {
+                    "input": 17
+                  },
+                  {
+                    "literal": "%special%requests%",
+                    "type": "CHAR",
+                    "target_type": "CHAR",
+                    "scale": -2147483648,
+                    "precision": 18,
+                    "type_scale": -2147483648,
+                    "type_precision": 18
+                  }
+                ],
+                "type": {
+                  "type": "BOOLEAN",
+                  "nullable": true
+                }
+              }
+            ],
+            "type": {
+              "type": "BOOLEAN",
+              "nullable": true
+            }
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      },
+      "joinType": "left",
+      "inputs": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalProject",
+      "fields": [
+        "c_custkey",
+        "O_ORDERKEY"
+      ],
+      "exprs": [
+        {
+          "input": 0
+        },
+        {
+          "input": 9
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "c_custkey",
+        "EXPR$1"
+      ],
+      "group": [
+        0
+      ],
+      "aggs": [
+        {
+          "agg": "COUNT",
+          "type": {
+            "type": "BIGINT",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalProject",
+      "fields": [
+        "c_count"
+      ],
+      "exprs": [
+        {
+          "input": 1
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalAggregate",
+      "fields": [
+        "c_count",
+        "custdist"
+      ],
+      "group": [
+        0
+      ],
+      "aggs": [
+        {
+          "agg": "COUNT",
+          "type": {
+            "type": "BIGINT",
+            "nullable": false
+          },
+          "distinct": false,
+          "operands": []
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "relOp": "LogicalSort",
+      "collation": [
+        {
+          "field": 1,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        },
+        {
+          "field": 0,
+          "direction": "DESCENDING",
+          "nulls": "FIRST"
+        }
+      ]
+    }
+  ]
+}
