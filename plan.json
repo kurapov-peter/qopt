@@ -1,0 +1,328 @@
+{
+  "rels": [
+    {
+      "id": "0",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "x",
+        "w",
+        "y",
+        "z",
+        "t",
+        "b",
+        "f",
+        "ff",
+        "fn",
+        "d",
+        "dn",
+        "str",
+        "null_str",
+        "fixed_str",
+        "fixed_null_str",
+        "real_str",
+        "shared_dict",
+        "m",
+        "m_3",
+        "m_6",
+        "m_9",
+        "n",
+        "o",
+        "o1",
+        "o2",
+        "fx",
+        "dd",
+        "dd_notnull",
+        "ss",
+        "u",
+        "ofd",
+        "ufd",
+        "ofq",
+        "ufq",
+        "smallint_nulls",
+        "bn",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "test"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "1",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "x",
+        "w",
+        "y",
+        "z",
+        "t",
+        "b",
+        "f",
+        "ff",
+        "fn",
+        "d",
+        "dn",
+        "str",
+        "null_str",
+        "fixed_str",
+        "fixed_null_str",
+        "real_str",
+        "shared_dict",
+        "m",
+        "m_3",
+        "m_6",
+        "m_9",
+        "n",
+        "o",
+        "o1",
+        "o2",
+        "fx",
+        "dd",
+        "dd_notnull",
+        "ss",
+        "u",
+        "ofd",
+        "ufd",
+        "ofq",
+        "ufq",
+        "smallint_nulls",
+        "bn",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "test"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "2",
+      "relOp": "LogicalProject",
+      "fields": [
+        "y"
+      ],
+      "exprs": [
+        {
+          "input": 2
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "op": "=",
+        "operands": [
+          {
+            "input": 2
+          },
+          {
+            "input": 37
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      },
+      "joinType": "inner",
+      "inputs": [
+        "0",
+        "2"
+      ]
+    },
+    {
+      "id": "4",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "x",
+        "w",
+        "y",
+        "z",
+        "t",
+        "b",
+        "f",
+        "ff",
+        "fn",
+        "d",
+        "dn",
+        "str",
+        "null_str",
+        "fixed_str",
+        "fixed_null_str",
+        "real_str",
+        "shared_dict",
+        "m",
+        "m_3",
+        "m_6",
+        "m_9",
+        "n",
+        "o",
+        "o1",
+        "o2",
+        "fx",
+        "dd",
+        "dd_notnull",
+        "ss",
+        "u",
+        "ofd",
+        "ufd",
+        "ofq",
+        "ufq",
+        "smallint_nulls",
+        "bn",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "test"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "5",
+      "relOp": "LogicalProject",
+      "fields": [
+        "z"
+      ],
+      "exprs": [
+        {
+          "input": 3
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "op": "=",
+        "operands": [
+          {
+            "input": 3
+          },
+          {
+            "input": 38
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      },
+      "joinType": "inner",
+      "inputs": [
+        "3",
+        "5"
+      ]
+    },
+    {
+      "id": "7",
+      "relOp": "LogicalTableScan",
+      "fieldNames": [
+        "x",
+        "w",
+        "y",
+        "z",
+        "t",
+        "b",
+        "f",
+        "ff",
+        "fn",
+        "d",
+        "dn",
+        "str",
+        "null_str",
+        "fixed_str",
+        "fixed_null_str",
+        "real_str",
+        "shared_dict",
+        "m",
+        "m_3",
+        "m_6",
+        "m_9",
+        "n",
+        "o",
+        "o1",
+        "o2",
+        "fx",
+        "dd",
+        "dd_notnull",
+        "ss",
+        "u",
+        "ofd",
+        "ufd",
+        "ofq",
+        "ufq",
+        "smallint_nulls",
+        "bn",
+        "rowid"
+      ],
+      "table": [
+        "omnisci",
+        "test"
+      ],
+      "inputs": []
+    },
+    {
+      "id": "8",
+      "relOp": "LogicalProject",
+      "fields": [
+        "t"
+      ],
+      "exprs": [
+        {
+          "input": 4
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "relOp": "LogicalJoin",
+      "condition": {
+        "op": "=",
+        "operands": [
+          {
+            "input": 4
+          },
+          {
+            "input": 39
+          }
+        ],
+        "type": {
+          "type": "BOOLEAN",
+          "nullable": true
+        }
+      },
+      "joinType": "inner",
+      "inputs": [
+        "6",
+        "8"
+      ]
+    },
+    {
+      "id": "10",
+      "relOp": "LogicalProject",
+      "fields": [
+        "x",
+        "y",
+        "z",
+        "t"
+      ],
+      "exprs": [
+        {
+          "input": 0
+        },
+        {
+          "input": 37
+        },
+        {
+          "input": 38
+        },
+        {
+          "input": 39
+        }
+      ]
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import relops
 def display(g: nx.DiGraph, title: str = "Unnamed plan"):
     f = plt.figure(1)
     ax = f.add_subplot(1, 1, 1)
-    pos = nx.spring_layout(g, seed=6)
+    pos = nx.spring_layout(g, seed=1000000)
     nx.draw(g, pos, with_labels=True, font_weight='bold', ax=ax)
     nx.draw_networkx_edge_labels(g, pos, ax=ax)
     nx.draw_networkx_nodes(g, pos, nodelist=sources(g), node_color="tab:red", ax=ax)
