@@ -1,6 +1,7 @@
 from plan import Plan
 import sobol
 import pygad
+from bees_algorithm import BeesAlgorithm
 
 
 def optimize(plan: Plan, samples_num=400, candidates_for_local_search=10):
@@ -13,6 +14,7 @@ def optimize(plan: Plan, samples_num=400, candidates_for_local_search=10):
             plan.set_routers_coeffs(sample)
             generate_candidates.cost_recalc_counter += 1
             yield {'sample': sample, 'cost': plan.cost()}
+
     generate_candidates.cost_recalc_counter = 0
 
     candidates = sorted(list(generate_candidates(samples)), key=lambda k: k['cost'])[:candidates_for_local_search]
@@ -63,5 +65,27 @@ def genetic_search(plan):
     print("Fitness value of the best solution = {solution_fitness}".format(solution_fitness=solution_fitness))
     plan.set_routers_coeffs(solution)
     print('Found solution with cost: ', plan.cost(), ' after ', fitness.cost_recalc_counter,
+          ' cost recalculations.')
+    return plan
+
+
+def bees_alg_opt(plan):
+    routers_cnt = len(plan.get_features()['routers'])
+    search_boundaries = ([0.0 for _ in range(routers_cnt)], [1.0 for _ in range(routers_cnt)])
+    cost_recalc_counter = 0
+
+    def hypersphere(solution):
+        nonlocal cost_recalc_counter
+        plan.set_routers_coeffs(solution)
+        cost_recalc_counter += 1
+        return -plan.cost()
+
+    alg = BeesAlgorithm(hypersphere, search_boundaries[0], search_boundaries[1])
+    alg.performFullOptimisation(max_iteration=5)
+    best = alg.best_solution
+    plan.set_routers_coeffs(best.values)
+    print("Bee algorithm:")
+    print("Parameters of the best solution : {solution}".format(solution=best.values))
+    print('Found solution with cost: ', plan.cost(), ' after ', cost_recalc_counter,
           ' cost recalculations.')
     return plan
