@@ -4,7 +4,7 @@ import plan_parser
 import graph_utils
 from plan import Plan
 import argparse
-from optimizer import optimize, genetic_search
+from optimizer import optimize, genetic_search, brute_force_opt
 import json
 
 
@@ -30,6 +30,7 @@ def main(args):
     # # print(p.cost())
     #
     # genetic_search(p)
+    brute_force_opt(p)
 
 
 if __name__ == "__main__":
