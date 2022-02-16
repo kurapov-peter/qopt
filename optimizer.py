@@ -98,3 +98,10 @@ def brute_force_opt(plan):
     print('Found solution with cost: ', plan.cost(), ' after ', cost_recalc_counter,
           ' cost recalculations.')
     return plan
+
+def greedy_opt(plan):
+    plan.set_coeffs_greedy()
+    routers = plan.get_features()['routers']
+    print("Parameters of the best solution : {solution}".format(solution=routers))
+    print('Found solution with cost: ', plan.cost())
+    return plan
