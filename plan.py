@@ -4,6 +4,7 @@ import networkx as nx
 import graph_utils
 from estimator import cost, join_cost, DataParams
 import data_params
+import numpy as np
 
 class PlanNode(object):
     def __init__(self, op: relops.Operator, dev: Device):
@@ -145,3 +146,64 @@ class Plan(object):
     def _cleanup(self):
         for node in self._g:
             node.props = {}
+
+    def _calculate_upper_cost(self, router_node):
+        cur_cost = cost(router_node.get_op(), router_node.device, router_node.props['input'])
+        if len(list(self._g.successors(router_node))) == 1:
+            return cur_cost
+        for node in self._g.successors(router_node):
+            node.props['input'] = node.get_op().input_scale(router_node.props["input"], node.device)
+            cur_cost = cost(node.get_op(), node.device, node.props['input'])
+
+            assert len(list(self._g.successors(node))) == 1
+            next_node = list(self._g.successors(node))[0]
+            prev_node = node
+            while not isinstance(next_node.get_op(), relops.Router):
+                next_node.props['input'] = next_node.get_op().input_scale(prev_node.props['input'], next_node.device)
+                cur_cost += cost(next_node.get_op(), next_node.device, next_node.props['input'])
+                prev_node = next_node
+                next_node = list(self._g.successors(next_node))[0]
+
+        return 0.0
+
+    def set_coeffs_greedy(self, input_data: dict = None):
+        self._cleanup()
+        self._update_input_costs(input_data)
+        queue = graph_utils.sources(self._g)
+
+        # mark sources as ready
+        for node in self._g:
+            node.props['ready'] = node in queue
+
+        predecessors_num = self._g.in_degree(node)
+
+        while len(queue):
+            node = queue.pop(0)
+            if isinstance(node.get_op(), relops.Router):
+                if predecessors_num != 0:
+                    predecessors_data = [x.props['input'] for x in self._g.predecessors(node)]
+                    node.props['input'] = data_params.merge(predecessors_data)
+
+                min_cost = float('inf')
+                cpu_coeff = 0.0
+                for x in np.arange(0, 1.1, 0.1):
+                    node.get_op().set_input_coeff({CPU(): x, GPU(): 1.0 - x})
+                    cost = self._calculate_upper_cost(node)
+                    if cost < min_cost:
+                        min_cost = cost
+                        cpu_coeff = x
+
+                node.get_op().set_input_coeff({CPU(): cpu_coeff, GPU(): 1.0 - cpu_coeff})
+
+            elif isinstance(node.get_op(), relops.RelJoin):
+                pred = list(self._g.predecessors(node))
+                node.props["input"] = node.get_op().join(pred[0].props['input'], pred[1].props['input'])
+            else:
+                assert len(list(self._g.predecessors(node))) == 1
+                pred = list(self._g.predecessors(node))[0]
+                node.props['input'] = pred.get_op().input_scale(pred.props["input"], node.device)
+
+            for suc in self._g.successors(node):
+                if not suc.props['ready'] and all(v.props['ready'] for v in self._g.predecessors(suc)):
+                    suc.props['ready'] = True
+                    queue.append(suc)
