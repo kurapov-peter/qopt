@@ -1,0 +1,11 @@
+name: qopt
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - numpy
+  - networkx
+  - pip:
+    - sobol
+    - pygad
+    - sobol_seq
